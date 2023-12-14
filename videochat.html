@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="videochat.css">
+
+    <!-- Jitsi External API Script -->
+    <script src='https://meet.jit.si/external_api.js'></script>
+
+    <style>
+        .watermark {
+            display: none !important;
+        }
+    </style>
+
+    <title>Medicastore</title>
+</head>
+
+<body>
+    <div class="thebody text-center">
+        <!-- Navbar -->
+        <nav class="navbar navbar-dark" style="background-color: whitesmoke; box-shadow: 2px 4px rgba(42, 135, 175, 0.5)">
+            <span class="navbar-brand" style="font-size: 40px; color: #2a87af">medicastore</span>
+        </nav>
+
+        <!-- Meeting Card -->
+        <div class="container mt-md-5 align-items-center" id="meeting-card">
+            <div class="row justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="avatar_147142.png" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-primary mb-2" id="video-conference-btn">Video Conference</a>
+                        <a href="#" class="btn btn-secondary">Chat</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Jitsi Container -->
+        <div id="jitsi-container" class="container align-items-center mt-5" style="display: none;">
+            <div id="jitsi-frame" style="width: 800px; height: 600px;"></div>
+            <a href="#" class="btn btn-secondary mt-2" id="back-to-home-btn">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        var api = null;
+
+        var videoConferenceBtn = document.querySelector('#video-conference-btn');
+        var meetingCard = document.querySelector('#meeting-card');
+        var jitsiContainer = document.querySelector('#jitsi-container');
+        var backToHomeBtn = document.querySelector('#back-to-home-btn');
+
+        videoConferenceBtn.addEventListener('click', () => {
+            // Hide the meeting card
+            meetingCard.style.display = 'none';
+
+            var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var stringLength = 30;
+
+            function pickRandom() {
+                return possible[Math.floor(Math.random() * possible.length)];
+            }
+
+            var randomString = Array.apply(null, Array(stringLength)).map(pickRandom).join('');
+
+            var domain = "meet.jit.si";
+            var roomName = "NamaRuanganAnda";  // Ganti dengan nama ruangan yang Anda inginkan
+            var options = {
+                "roomName": roomName,
+                "parentNode": document.querySelector('#jitsi-frame'),
+                "width": '100%',
+                "height": '100%',
+                "configOverwrite": {
+                    "startWithAudioMuted": true,
+                    "startWithVideoMuted": true,
+                    "disableThirdPartyRequests": true,
+                    "disableInviteFunctions": true,
+                    "disableProfile": true,
+                    "prejoinPageEnabled": false,
+                    "requireDisplayName": false,
+                    "startVideoMuted": 0,
+                    "enableNoAudioDetection": false,
+                    "toolbarButtons": [
+                        "microphone", "camera", "closedcaptions", "desktop", "fullscreen",
+                        "fodeviceselection", "hangup", "profile", "info", "chat", "recording",
+                        "livestreaming", "etherpad", "sharedvideo", "settings", "raisehand",
+                        "videoquality", "filmstrip", "invite", "feedback", "stats", "shortcuts",
+                        "tileview"
+                    ],
+                    "disableShowNotifications": true,
+                    "disableShowMeetings": true  // Menonaktifkan pesan "Waiting for the host to start this meeting"
+                },
+                "interfaceConfigOverwrite": {
+                    "filmStripOnly": false,
+                    "SHOW_JITSI_WATERMARK": false,
+                    "TOOLBAR_BUTTONS": [
+                        "microphone", "camera", "closedcaptions", "desktop", "fullscreen",
+                        "fodeviceselection", "hangup", "profile", "info", "chat", "recording",
+                        "livestreaming", "etherpad", "sharedvideo", "settings", "raisehand",
+                        "videoquality", "filmstrip", "invite", "feedback", "stats", "shortcuts",
+                        "tileview"
+                    ]
+                }
+            };
+
+            api = new JitsiMeetExternalAPI(domain, options);
+
+            // Show the Jitsi container
+            jitsiContainer.style.display = 'block';
+        });
+
+        backToHomeBtn.addEventListener('click', () => {
+            // Show the meeting card and hide the Jitsi container
+            meetingCard.style.display = 'block';
+            jitsiContainer.style.display = 'none';
+
+            // Unload Jitsi to stop audio/video tracks
+            api.dispose();
+        });
+    </script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+/* Custom CSS - videochat.css */
+
+.thebody {
+    background-color: #f8f9fa; /* Background color for the body */
+}
+
+.navbar-brand {
+    font-family: sans-serif; /* Set font family to sans-serif for the brand */
+}
+
+.container {
+    margin-top: 20px; /* Adjust the top margin of the containers */
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow to the cards */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Set the primary button background color */
+    border-color: #007bff; /* Set the primary button border color */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Set the primary button background color on hover */
+    border-color: #0056b3; /* Set the primary button border color on hover */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Set the secondary button background color */
+    border-color: #6c757d; /* Set the secondary button border color */
+}
+
+.btn-secondary:hover {
+    background-color: #545b62; /* Set the secondary button background color on hover */
+    border-color: #545b62; /* Set the secondary button border color on hover */
+}
+
+.transbox {
+    background-color: rgba(255, 255, 255, 0.8); /* Set the background color and transparency for the transbox */
+    padding: 15px; /* Add padding to the transbox */
+    border-radius: 10px; /* Add border-radius to the transbox */
+}
+
+#jitsi-container {
+    margin-top: 20px; /* Adjust the top margin of the Jitsi container */
+}
